@@ -5,17 +5,16 @@ namespace Elements;
 use Elements\Node;
 class Double_Linked_List
 {
-    protected Node $head;
-    protected int $size;
+    protected Node|Null $head;
+    protected Node|Null $tail;
+    protected int|Null $size;
 
 
-    public function __construct(Node|float $head)
+    public function __construct()
     {
-        if(gettype($head) == "double" || gettype($head) == "integer"){
-            $head = new Node($head);
-        }
-        $this->head = $head;
-        $this->size = 1;
+        $this->size = 0;
+        $this->head = null;
+        $this->tail = null;
     }
 
     public function dump(bool $showRelationshipts = false)
@@ -33,20 +32,18 @@ class Double_Linked_List
         echo $output;
     }
 
-
-    public function append(Node|float $newNode)
+    public function append(Node $newNode)
     {
-        $node = $this->head;
-        while($node->getNext() != null){
-            $node = $node->getNext();
+        if(is_null($this->head))
+        {
+            $this->head = $newNode;
+            $this->tail = $newNode;
+            $this->size++;
+            return;
         }
-
-        if(gettype($newNode) == "double" || gettype($newNode) == "integer"){
-            $newNode = new Node($newNode);
-        }
-
-        $node->setNext($newNode);
-        $newNode->setPrev($node);
+        $this->tail->setNext($newNode);
+        $newNode->setPrev($this->tail);
+        $this->tail = $newNode;
         $this->size++;
     }
 
@@ -90,7 +87,7 @@ class Double_Linked_List
     public function deleteByIndex(Int $index)
     {
         if($index >= $this->size){
-            throw new Exception('índice maior do que tamanho da lista');
+            return false;
         }
         $node = $this->head;
 
@@ -112,8 +109,10 @@ class Double_Linked_List
 
     public function insertNodeOnIndex(Node $newNode,Int $index) : Bool 
     {
+        if($index >= $this->size){
+            return false;
+        }
         $node = $this->head;
-
         for($i = 0;$i < $this->size;$i++){
             if($i == $index){
                 $newNode->setPrev($node->getPrev());
@@ -125,5 +124,4 @@ class Double_Linked_List
         }
         return false;
     }
-
 }

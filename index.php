@@ -9,13 +9,12 @@ use Elements\Node;
 use Elements\Double_Linked_List;
 
 
-$head = new Node(1);
-$linked_list = new Double_Linked_List($head); 
-$linked_list->append(3);
-$linked_list->append(6);
-$linked_list->append(8);
-$linked_list->append(2);
-$linked_list->append(7);
+$linked_list = new Double_Linked_List(); 
+$linked_list->append(new Node(3));
+$linked_list->append(new Node(6));
+$linked_list->append(new Node(8));
+$linked_list->append(new Node(2));
+$linked_list->append(new Node(7));
 // $linked_list->deleteByValue(2);
 $linked_list->deleteByIndex(1);
 $linked_list->insertNodeOnIndex(new Node(10),2);
